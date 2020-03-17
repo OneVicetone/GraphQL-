@@ -123,3 +123,39 @@ mutation postPhoto($input:PostPhotoInput) {
 // http://xx.com/graphql?variables={input:{url:"https://baidu.com/defaul.png"}}
 ```
 
+Subscription
+
+Subscription代表订阅，在Subscription中定义了查询内容后就会通过websocket和前后端建立一个双向数据通道，当数据改变的时候就会自动向客户端推送数据
+
+例如下面定义一个action类型的Photo，当新的action类型的Photo插入时就会通知数据自动更新
+
+```javascript
+subscription {
+  newPhoto(type:'ACTION'){
+    url,
+    size
+  }
+}
+```
+
+对应的Resolvers配置
+
+```javascript
+const resolver = {
+  Mutation: {
+    postPhoto: async (parent, args, { pubsub }) => {
+      // 上传图片时触发更新
+      pubsub.publish("photo-add");
+    }
+  },
+  Subscription: {
+    newPhoto: {
+      // 监听 photo-add 事件，并实时向客户端推送
+      subscribe: (parent, args, { pubsub }) => {
+        return pubsub.asyncIterator("photo-add");
+      }
+    }
+  }
+};
+```
+
