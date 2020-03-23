@@ -27,7 +27,8 @@ schema.getQueryType().getFields().getUsers.resolve = async () => {
 
 schema.getQueryType().getFields().getUserById.resolve = async (...args) => {
     const { id } = args[1]
-    return users[id]
+    const res = await User.findById({_id:id})
+    return res
 }
 
 schema.getMutationType().getFields().addUser.resolve = async (...args) => {
