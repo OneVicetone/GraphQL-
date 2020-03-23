@@ -1,0 +1,15 @@
+{
+  "name": "1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "graphql": "^14.6.0",
+    "koa": "^2.11.0",
+    "koa-graphql": "^0.8.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^8.0.8",
+    "mongoose": "^5.9.5"
+  }
+}
